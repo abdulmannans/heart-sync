@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import InstagramConnectPage from './components/InstagramConnectPage';
-import CreateLinkPage from './components/CreateLink';
-import InstagramLoginPage from './components/Instagram';
+
+const CreateLinkPage = lazy(() => import('./components/CreateLink'));
+const InstagramConnectPage = lazy(() => import('./components/InstagramConnectPage'));
+const InstagramLoginPage = lazy(() => import('./components/Instagram'));
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<CreateLinkPage />} />
-        <Route path="/connect/:token" element={<InstagramConnectPage />} />
-        <Route path="/instagram-login" element={<InstagramLoginPage />} />
-      </Routes>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<CreateLinkPage />} />
+          <Route path="/connect/:token" element={<InstagramConnectPage />} />
+          <Route path="/instagram-login" element={<InstagramLoginPage />} />
+        </Routes>
+      </Suspense>
     </Router>
   );
 }
