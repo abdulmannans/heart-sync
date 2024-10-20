@@ -20,7 +20,7 @@ const CreateLinkPage = () => {
     e.preventDefault();
     setIsGenerating(true);
     try {
-      const response = await axios.post('http://localhost:5001/api/create-link', { name: recipientName, theme });
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/create-link`, { name: recipientName, theme });
       setGeneratedLink(`${window.location.origin}/connect/${response.data.token}`);
     } catch (error) {
       console.error('Error creating link:', error);
@@ -49,10 +49,10 @@ const CreateLinkPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 to-purple-200 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-2xl overflow-hidden">
+    <div className="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-pink-100 to-purple-200">
+      <div className="w-full max-w-md overflow-hidden bg-white shadow-2xl rounded-xl">
         <div className="p-8">
-          <h1 className="text-3xl font-extrabold text-gray-900 mb-6">Create Your HeartSync Link</h1>
+          <h1 className="mb-6 text-3xl font-extrabold text-gray-900">Create Your HeartSync Link</h1>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="recipientName" className="block text-sm font-medium text-gray-700">
@@ -63,11 +63,7 @@ const CreateLinkPage = () => {
                 id="recipientName"
                 value={recipientName}
                 onChange={(e) => setRecipientName(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
-                focus:outline-none focus:border-pink-500 focus:ring-1 focus:ring-pink-500
-                disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200 disabled:shadow-none
-                invalid:border-pink-500 invalid:text-pink-600
-                focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                className="block w-full px-3 py-2 mt-1 text-sm placeholder-gray-400 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-pink-500 focus:ring-1 focus:ring-pink-500 disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
                 placeholder="Enter recipient's name or username"
                 required
               />
@@ -85,9 +81,9 @@ const CreateLinkPage = () => {
                       type="radio"
                       checked={theme === t.id}
                       onChange={() => setTheme(t.id)}
-                      className="focus:ring-pink-500 h-4 w-4 text-pink-600 border-gray-300"
+                      className="w-4 h-4 text-pink-600 border-gray-300 focus:ring-pink-500"
                     />
-                    <label htmlFor={t.id} className="ml-3 block text-sm font-medium text-gray-700">
+                    <label htmlFor={t.id} className="block ml-3 text-sm font-medium text-gray-700">
                       <span className="font-semibold">{t.name}</span> - {t.description}
                     </label>
                   </div>
@@ -96,7 +92,7 @@ const CreateLinkPage = () => {
             </div>
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+              className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-pink-600 border border-transparent rounded-md shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
               disabled={isGenerating}
             >
               {isGenerating ? 'Generating...' : 'Generate Link'}
@@ -114,13 +110,13 @@ const CreateLinkPage = () => {
                   damping: 20,
                   duration: 0.5
                 }}
-                className="mt-8 p-4 bg-gray-50 rounded-md"
+                className="p-4 mt-8 rounded-md bg-gray-50"
               >
-                <h2 className="text-lg font-semibold text-gray-900 mb-2">Your Generated Link:</h2>
+                <h2 className="mb-2 text-lg font-semibold text-gray-900">Your Generated Link:</h2>
                 <div className="flex items-center justify-between">
                   <a
                     href={generatedLink}
-                    className="text-pink-600 hover:text-pink-800 break-all text-sm flex-grow mr-2"
+                    className="flex-grow mr-2 text-sm text-pink-600 break-all hover:text-pink-800"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -128,7 +124,7 @@ const CreateLinkPage = () => {
                   </a>
                   <button
                     onClick={handleShare}
-                    className="flex items-center justify-center p-2 bg-pink-100 rounded-full hover:bg-pink-200 transition-colors duration-200"
+                    className="flex items-center justify-center p-2 transition-colors duration-200 bg-pink-100 rounded-full hover:bg-pink-200"
                   >
                     <Share2 className="w-5 h-5 text-pink-600" />
                   </button>

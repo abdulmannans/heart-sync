@@ -48,7 +48,7 @@ const InstagramConnectPage = () => {
   useEffect(() => {
     const fetchLinkData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/connect/${token}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/connect/${token}`);
         setName(response.data.name);
         setTheme(response.data.theme);
         setLoading(false);
@@ -80,10 +80,10 @@ const InstagramConnectPage = () => {
 
   return (
     <div className={`min-h-screen bg-gradient-to-br ${currentTheme.gradient} flex items-center justify-center p-4`}>
-      <div className="bg-white bg-opacity-90 rounded-lg shadow-xl p-4 sm:p-6 md:p-8 max-w-xs sm:max-w-sm md:max-w-md w-full relative overflow-hidden">
+      <div className="relative w-full max-w-xs p-4 overflow-hidden bg-white rounded-lg shadow-xl bg-opacity-90 sm:p-6 md:p-8 sm:max-w-sm md:max-w-md">
         <div className="absolute top-0 left-0 w-full h-full">
-          <ThemeIcon className="text-white opacity-5 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 absolute -top-8 -left-8 sm:-top-12 sm:-left-12 md:-top-16 md:-left-16 transform -rotate-12" />
-          <ThemeIcon className="text-white opacity-5 w-24 h-24 sm:w-36 sm:h-36 md:w-48 md:h-48 absolute -bottom-4 -right-4 sm:-bottom-6 sm:-right-6 md:-bottom-8 md:-right-8 transform rotate-12" />
+          <ThemeIcon className="absolute w-32 h-32 text-white transform opacity-5 sm:w-48 sm:h-48 md:w-64 md:h-64 -top-8 -left-8 sm:-top-12 sm:-left-12 md:-top-16 md:-left-16 -rotate-12" />
+          <ThemeIcon className="absolute w-24 h-24 text-white transform opacity-5 sm:w-36 sm:h-36 md:w-48 md:h-48 -bottom-4 -right-4 sm:-bottom-6 sm:-right-6 md:-bottom-8 md:-right-8 rotate-12" />
         </div>
         <div className="relative z-10">
           <div className="text-center">
@@ -98,7 +98,7 @@ const InstagramConnectPage = () => {
               onClick={handleConnect}
               className={`w-full flex items-center justify-center px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 border border-transparent rounded-full shadow-sm text-base sm:text-lg font-medium text-white ${currentTheme.buttonColor} focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-300 ease-in-out transform hover:scale-105`}
             >
-              <Instagram className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <Instagram className="w-4 h-4 mr-2 sm:h-5 sm:w-5" />
               Connect to Instagram
             </button>
           </div>
