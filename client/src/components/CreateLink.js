@@ -10,7 +10,7 @@ const themes = [
   { id: 'bff', name: 'BFF', description: 'Celebrate your friendship' },
 ];
 
-const CreateLinkPage = () => {
+const CreateLink = () => {
   const [recipientName, setRecipientName] = useState('');
   const [theme, setTheme] = useState('love');
   const [generatedLink, setGeneratedLink] = useState('');
@@ -22,7 +22,7 @@ const CreateLinkPage = () => {
     setIsGenerating(true);
     setError('');
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/create-link`, { name: recipientName, theme });
+      const response = await axios.post('/api/create-link', { name: recipientName, theme });
       setGeneratedLink(`${window.location.origin}/connect/${response.data.token}`);
     } catch (error) {
       console.error('Error creating link:', error);
@@ -92,7 +92,7 @@ const CreateLinkPage = () => {
               </div>
             </div>
             {error && (
-              <div className="text-sm text-red-600">{error}</div>
+              <div className="text-sm text-red-600" aria-live="polite">{error}</div>
             )}
             <button
               type="submit"
@@ -143,4 +143,4 @@ const CreateLinkPage = () => {
   );
 };
 
-export default CreateLinkPage;
+export default CreateLink;

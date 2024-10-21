@@ -1,8 +1,8 @@
-// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const crypto = require('crypto');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -12,6 +12,9 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/heartsync';
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from the React app build directory
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // MongoDB connection
 mongoose.connect(MONGODB_URI)
@@ -82,6 +85,11 @@ app.get('/api/connect/:token', async (req, res) => {
     console.error('Error fetching link data:', error);
     res.status(500).json({ error: 'Error fetching link data' });
   }
+});
+
+// Serve React app for any other route
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
 // Error handling middleware
