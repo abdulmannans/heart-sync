@@ -15,16 +15,18 @@ const CreateLinkPage = () => {
   const [theme, setTheme] = useState('love');
   const [generatedLink, setGeneratedLink] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsGenerating(true);
+    setError('');
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/create-link`, { name: recipientName, theme });
       setGeneratedLink(`${window.location.origin}/connect/${response.data.token}`);
     } catch (error) {
       console.error('Error creating link:', error);
-      // TODO: Add user-friendly error handling
+      setError('Failed to generate link. Please try again.');
     } finally {
       setIsGenerating(false);
     }
@@ -42,7 +44,6 @@ const CreateLinkPage = () => {
         console.error('Error sharing:', error);
       }
     } else {
-      // Fallback for browsers that don't support the Web Share API
       navigator.clipboard.writeText(generatedLink);
       alert('Link copied to clipboard!');
     }
@@ -90,10 +91,14 @@ const CreateLinkPage = () => {
                 ))}
               </div>
             </div>
+            {error && (
+              <div className="text-sm text-red-600">{error}</div>
+            )}
             <button
               type="submit"
-              className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-pink-600 border border-transparent rounded-md shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+              className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-pink-600 border border-transparent rounded-md shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 active:bg-pink-800 touch-action-manipulation"
               disabled={isGenerating}
+              onTouchStart={() => {}} // Add empty handler to improve touch responsiveness
             >
               {isGenerating ? 'Generating...' : 'Generate Link'}
             </button>
